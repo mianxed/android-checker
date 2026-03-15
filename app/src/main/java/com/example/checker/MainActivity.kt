@@ -266,28 +266,6 @@ class MainActivity : AppCompatActivity() {
             val unique = foundData.distinct().sorted()
             if (unique.isNotEmpty()) unique.forEach { appendLog(it) } else appendLog("-")
 
-            appendLog("")
-            appendLog("[*] Checking installed apps...")
-            appendLog("")
-            appendLog("Installed Apps:")
-            val packages = packageManager.getInstalledPackages(0)
-
-            for (pkg in packages) {
-                val packageName = pkg.packageName
-                val appName = pkg.applicationInfo?.loadLabel(packageManager).toString()
-                val combined = "$appName $packageName".lowercase()
-                var sus = false
-                for (kw in keywords) {
-                    if (combined.contains(kw.lowercase())) {
-                        sus = true
-                        break
-                    }
-                }
-                if (sus) appendLog("[!] $appName ($packageName)")
-                else appendLog("$appName ($packageName)")
-            }
-
-
             runOnUiThread { findViewById<Button>(R.id.btnScan).isEnabled = true }
             startObservers()
         }.start()
